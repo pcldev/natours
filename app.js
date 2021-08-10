@@ -7,6 +7,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controller/errorController');
@@ -16,7 +17,7 @@ const reviewRouter = require('./routers/reviewRouter');
 const bookingRouter = require('./routers/bookingRoutes');
 const viewRouter = require('./routers/viewRoute');
 
-//Start express app
+//Start express application
 const app = express();
 
 app.set('view engine', 'pug');
@@ -65,6 +66,8 @@ app.use(
     ],
   })
 );
+
+app.use(compression());
 
 //Test middelware
 app.use((req, res, next) => {
