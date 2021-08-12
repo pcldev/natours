@@ -2,6 +2,7 @@ const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('./../model/userModel');
+const Booking = require('./../model/bookingModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const Email = require('./../utils/email');
@@ -140,6 +141,7 @@ exports.isLoggedIn = async (req, res, next) => {
       }
 
       // There is a logged in user
+      req.user = currentUser;
       res.locals.user = currentUser;
       /* res.locals.user sẽ tạo một biến tên là user .isLoggedIn sẽ được sử dụng là 1 một middelware .Phía bên viewRoute đặt ở đầu và các route khác sẽ có quyền nhận được biến user và các pug template sẽ được truyền biến user vào */
       // res.locals.tours = await Tour.find();
@@ -243,4 +245,18 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
   // 4) Log user in, send JWT
   createSendToken(user, 200, req, res);
+});
+
+exports.isBooked = catchAsync(async (req, res, next) => {
+  if (!req.user) return next();
+  const booked = await Booking.find({ user: req.user._id });
+  if (!booked) {
+    return next();
+  }
+  booked.forEach((val) => {
+    if (req.params.tourId === val.tour.id) {
+      res.locals.booked = true;
+    } else return next();
+  });
+  next();
 });

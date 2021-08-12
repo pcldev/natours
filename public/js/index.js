@@ -4,6 +4,7 @@ import { signup } from './signup';
 import { displayMap } from './mapbox';
 import { updateSettings } from './updateSettings';
 import { bookTour } from './stripe';
+import { postReview } from './review';
 
 const queryForm = function (thisQuery, func) {
   const forms = thisQuery.querySelectorAll('input');
@@ -19,6 +20,7 @@ const signupForm = document.querySelector('.form__signup');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const bookBtn = document.getElementById('book-tour');
+const cmtBtn = document.querySelector('.postReview');
 
 const logOutBtn = document.querySelector('.nav__el--logout');
 
@@ -92,5 +94,51 @@ if (bookBtn) {
     e.target.textContent = 'Processing...';
     const { tourId } = e.target.dataset;
     bookTour(tourId);
+  });
+}
+
+if (cmtBtn) {
+  const stars = document.querySelectorAll('.star');
+  let starRating = 1;
+  for (let i = 0; i < stars.length; i++) {
+    stars[i].starValue = i + 1;
+    ['mouseover', 'mouseout', 'click'].forEach(function (e) {
+      stars[i].addEventListener(e, starRate);
+    });
+  }
+
+  function starRate(e) {
+    let type = e.type;
+    let starValue = this.starValue;
+    if (type === 'click') {
+      if (starValue > 1) {
+        // console.log(starValue);
+        starRating = starValue;
+      }
+    }
+    stars.forEach(function (ele, ind) {
+      if (type === 'click') {
+        if (ind < starValue) {
+          ele.classList.add('fix');
+        } else {
+          ele.classList.remove('fix');
+        }
+      }
+      if (type === 'mouseover') {
+        if (ind < starValue) {
+          ele.classList.add('over');
+        } else {
+          ele.classList.remove('over');
+        }
+      }
+      if (type === 'mouseout') {
+        ele.classList.remove('over');
+      }
+    });
+  }
+  cmtBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const cmtBox = document.getElementById('commentBox').value;
+    postReview(cmtBox, starRating);
   });
 }

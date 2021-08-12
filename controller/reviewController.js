@@ -1,9 +1,9 @@
 const Review = require('./../model/reviewModel');
-
 const factory = require('./handlerFactory');
 
-exports.setTourUserIds = (req, res, next) => {
+exports.setTourUserIds = async (req, res, next) => {
   //Allow nested routes
+  // console.log(tour);
   if (!req.body.tour) req.body.tour = req.params.tourId;
   if (!req.body.user) req.body.user = req.user.id;
   //Nếu không có tour và user thì không thể tạo review

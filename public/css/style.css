@@ -1324,3 +1324,47 @@ body {
   -webkit-transform: translateY(-2px);
   transform: translateY(-2px);
 }
+
+#comment{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+}
+#comment p{
+  color: #fff;
+  font-size: 40px;
+  font-family: inherit;
+  padding: 20px 20px;
+}
+
+#comment .postReview{
+  padding: 20px 23px;
+  cursor: pointer;
+  outline: none;
+  font-family: inherit;
+  border: 0;
+  border-radius: 20px;
+  background-color: #fff;
+  margin-top: 25px;
+}
+.star{
+  font-size: 30px;
+  color:#cfcfcf;
+  display: inline-block;
+}
+.over{
+  color:#f7c56a;
+}
+.fix{
+  color:#ffa600;
+}
+.rating{
+  margin: 30px 0;
+  font-weight:bold;
+}
+.text-center{
+  font-family: inherit;
+  color: #fff;
+  font-size: 30px;
+}
