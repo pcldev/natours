@@ -256,7 +256,7 @@ exports.isBooked = catchAsync(async (req, res, next) => {
   booked.forEach((val) => {
     if (req.params.tourId === val.tour.id) {
       res.locals.booked = true;
-    } else return next();
+    }
   });
   next();
 });
