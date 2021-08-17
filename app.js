@@ -15,6 +15,7 @@ const tourRouter = require('./routers/tourRouters');
 const userRouter = require('./routers/userRouter');
 const reviewRouter = require('./routers/reviewRouter');
 const bookingRouter = require('./routers/bookingRoutes');
+const likingRouter = require('./routers/likeRouter');
 const viewRouter = require('./routers/viewRoute');
 
 //Start express application
@@ -131,6 +132,7 @@ app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/bookings', bookingRouter);
+app.use('/api/v1/likings', likingRouter);
 
 //Khi '/api/v1/tours' được truy vấn thì các resquest dưới sẽ không bao giờ được đọc
 //Nếu để app.all lên đầu '*' với việc chỉ định toàn bộ thì các request cũng sẽ không được thực thi

@@ -7,6 +7,8 @@ const AppError = require('./../utils/appError');
 const factory = require('./handlerFactory');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
+  const { quantity } = req.body;
+
   // 1) Get the currently booked tour
   const tour = await Tour.findById(req.params.tourID);
   // 2) Create checkout session
@@ -27,7 +29,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
         images: [`https://www.natours.dev/img/tours/${tour.imageCover}`],
         amount: tour.price * 100,
         currency: 'usd',
-        quantity: 1,
+        quantity: quantity ? quantity : 1,
       },
     ],
   });

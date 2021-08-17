@@ -1368,3 +1368,31 @@ body {
   color: #fff;
   font-size: 30px;
 }
+#price{
+  font-family: inherit;
+  font-size: 30px;
+  font-weight: bold;
+}
+#quantity__member{
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: bold;
+}
+#quantity{
+  height: 50px;
+  width: 100px;
+  font-size: 16px;
+}
+.heart__icon{
+  top: 20px;
+  position: relative;
+  left: 15px;
+}
+.heart__icon i{
+  cursor: pointer;
+  font-size: 25px;
+}
+.heart__icon.active{
+  color: red;
+}
+

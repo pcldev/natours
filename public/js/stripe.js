@@ -4,10 +4,16 @@ const stripe = Stripe(
 );
 import { showAlert } from './alert';
 
-export const bookTour = async (tourId) => {
+export const bookTour = async (tourId, quantity) => {
   try {
     // 1) Get checkout session from API
-    const session = await axios(`/api/v1/bookings/checkout-session/${tourId}`);
+    const session = await axios({
+      method: 'POST',
+      url: `/api/v1/bookings/checkout-session/${tourId}`,
+      data: {
+        quantity,
+      },
+    });
     // 2) Create checkout form + change credit card
     await stripe.redirectToCheckout({
       sessionId: session.data.session.id,

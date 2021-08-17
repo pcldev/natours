@@ -110,6 +110,15 @@ block content
         if booked
           a.button.btn.btn--green.span-all-rows#book-tour(href="/") You have booked this tour already ! Let's try another tours
         else if user
+          h3#quantity__member Select your quantity member
+          input#quantity(type='number' name='quantity' min='1' max='5' value='1')
+          p#price=`${tour.price} $`
           button.btn.btn--green.span-all-rows#book-tour(data-tour-id=`${tour.id}`) Book tour now!
         else
           a.button.btn.btn--green.span-all-rows(href='/login') Login to book tour
+        if liked
+          .heart__icon.active
+            i.fas.fa-heart.likeBtn
+        else
+          .heart__icon
+            i.fas.fa-heart.likeBtn

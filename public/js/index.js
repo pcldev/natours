@@ -5,6 +5,7 @@ import { displayMap } from './mapbox';
 import { updateSettings } from './updateSettings';
 import { bookTour } from './stripe';
 import { postReview } from './review';
+import { addLike, removeLike } from './like';
 
 const queryForm = function (thisQuery, func) {
   const forms = thisQuery.querySelectorAll('input');
@@ -21,8 +22,22 @@ const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const bookBtn = document.getElementById('book-tour');
 const cmtBtn = document.querySelector('.postReview');
+const likeBtn = document.querySelector('.likeBtn');
 
 const logOutBtn = document.querySelector('.nav__el--logout');
+
+if (likeBtn) {
+  likeBtn.addEventListener('click', async () => {
+    const heartIcon = document.querySelector('.heart__icon');
+    if (document.querySelector('.heart__icon.active')) {
+      heartIcon.classList.remove('active');
+      await removeLike();
+    } else {
+      heartIcon.classList.add('active');
+      await addLike();
+    }
+  });
+}
 
 if (mapbox) {
   const locations = JSON.parse(
@@ -90,10 +105,17 @@ if (userPasswordForm) {
 if (logOutBtn) logOutBtn.addEventListener('click', logout);
 
 if (bookBtn) {
+  const quantity = document.getElementById('quantity');
+  const priceLive = document.getElementById('price');
+  if (!priceLive) return;
+  const priceDefault = parseInt(priceLive.innerHTML);
+  quantity.addEventListener('change', () => {
+    priceLive.innerHTML = `${priceDefault * quantity.value} $`;
+  });
   bookBtn.addEventListener('click', (e) => {
     e.target.textContent = 'Processing...';
     const { tourId } = e.target.dataset;
-    bookTour(tourId);
+    bookTour(tourId, quantity.value);
   });
 }
 

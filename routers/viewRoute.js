@@ -12,13 +12,15 @@ const {
   protect,
   isBooked,
 } = require('../controller/authController');
+
+const { checkLikeTour } = require('../controller/likeController.js');
 const { createBookingCheckout } = require('../controller/bookingController');
 
 const router = express.Router();
 
 router.get('/', createBookingCheckout, isLoggedIn, getOverview);
 
-router.get('/tour/:slug/:tourId', isLoggedIn, isBooked, getTour);
+router.get('/tour/:slug/:tourId', isLoggedIn, isBooked, checkLikeTour, getTour);
 
 router.get('/login', isLoggedIn, getLoginForm);
 router.get('/signup', isLoggedIn, getSignupForm);
