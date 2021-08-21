@@ -1,5 +1,6 @@
 const Tour = require('../model/tourModel');
 const Bookings = require('../model/bookingModel');
+const Reviews = require('../model/reviewModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
@@ -71,4 +72,33 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getMyReviews = catchAsync(async (req, res) => {
+  // 1) Find all reviews
+  const reviews = await Reviews.find({ user: req.user.id });
+  // 2) Find tours with the returned ID
+  const tourId = reviews.map((el) => el.tour);
 
+  const tours = await Tour.find({ _id: { $in: tourId } });
+  res.status(200).render('_review', {
+    title: 'My Reviews',
+    reviews,
+  });
+});
+
+exports.crudTours = catchAsync(async (req, res) => {
+  // 1) Find all tours
+  const tours = await Tour.find({});
+  res.status(200).render('_crudTours', {
+    title: 'All Tours',
+    tours,
+  });
+});
+
+exports.editTour = catchAsync(async (req, res) => {
+  // 1) find tour wanted to edit
+  const tour = await Tour.findById(req.params.tourId);
+  res.status(200).render('_editTour', {
+    title: `${tour.name} Tour`,
+    tour,
+  });
+});

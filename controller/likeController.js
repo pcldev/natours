@@ -2,12 +2,14 @@ const Like = require('./../model/likeModel');
 const catchAsync = require('./../utils/catchAsync');
 
 exports.checkLikeTour = catchAsync(async (req, res, next) => {
-  const data = await Like.find({
-    tour: req.params.tourId,
+  const checkUser = req.user;
+  if (!checkUser) return next();
+  const data = await Like.findOne({
     user: req.user.id,
+    tour: req.params.tourId,
   });
-  if (data.length === 0) return next();
-  if (data[0].statusLiking === true) res.locals.liked = true;
+  if (!data) return next();
+  if (data.statusLiking === true) res.locals.liked = true;
   next();
 });
 
@@ -31,6 +33,10 @@ exports.createLikeTour = catchAsync(async (req, res) => {
   } else {
     check.statusLiking = true;
     await check.save();
+    res.status(200).json({
+      status: 'success',
+      data: check,
+    });
   }
 });
 

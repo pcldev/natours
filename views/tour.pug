@@ -80,24 +80,47 @@ block content
       each review in tour.reviews
         +reviewCard(review)
     if booked
-      #comment
-        p Comment your experience
-        textarea#commentBox(name='commentBox' rows='4' cols='50' placeholder='Comment your experience ^^')
-        h2.text-center Star Rating
-        ul.text-center
-          li.star
-            i.fas.fa-star
-          li.star
-            i.fas.fa-star
-          li.star
-            i.fas.fa-star
-          li.star
-            i.fas.fa-star
-          li.star
-            i.fas.fa-star
-        button.postReview
-          | Post your review
-
+      //- #comment
+      //-   p Comment your experience
+      //-   textarea#commentBox(name='commentBox' rows='4' cols='50' placeholder='Comment your experience ^^')
+      //-   h2.text-center Star Rating
+      //-   ul.text-center
+      //-     li.star
+      //-       i.fas.fa-star
+      //-     li.star
+      //-       i.fas.fa-star
+      //-     li.star
+      //-       i.fas.fa-star
+      //-     li.star
+      //-       i.fas.fa-star
+      //-     li.star
+      //-       i.fas.fa-star
+      //-   button.postReview
+      //-     | Post your review
+      .review__block
+        h2 Share your experience here 🔥🔥🔥
+        .review__container
+          .post
+            .text Thanks for rating us!
+          .star-widget
+            input#rate-5(type='radio' name='rate')
+            label.fas.fa-star(for='rate-5' data-star='5')
+            input#rate-4(type='radio' name='rate')
+            label.fas.fa-star(for='rate-4' data-star='4')
+            input#rate-3(type='radio' name='rate')
+            label.fas.fa-star(for='rate-3' data-star='3')
+            input#rate-2(type='radio' name='rate')
+            label.fas.fa-star(for='rate-2' data-star='2')
+            input#rate-1(type='radio' name='rate')
+            label.fas.fa-star(for='rate-1' data-star='1')
+            form
+              header
+              .textarea
+                //- textarea(cols='30' placeholder='Describe your experience..' required='')
+                //- textarea(name="", cols="30", rows="10" , required='')
+                textarea(name="", cols="30", rows="10",placeholder='Describe your experience..',required)
+              .btn
+                button.postBtn(type='submit') Post
   section.section-cta
     .cta
       .cta__img.cta__img--logo
@@ -116,9 +139,10 @@ block content
           button.btn.btn--green.span-all-rows#book-tour(data-tour-id=`${tour.id}`) Book tour now!
         else
           a.button.btn.btn--green.span-all-rows(href='/login') Login to book tour
-        if liked
-          .heart__icon.active
-            i.fas.fa-heart.likeBtn
-        else
-          .heart__icon
-            i.fas.fa-heart.likeBtn
+        if user
+          if liked
+            .heart__icon.active
+              i.fas.fa-heart.likeBtn
+          else
+            .heart__icon
+              i.fas.fa-heart.likeBtn

@@ -221,7 +221,9 @@ body {
   outline: none;
   background-color: #2e864b;
 }
-
+.btn--red{
+  color:#eb4d4b;
+}
 .btn--white {
   background-color: #fff;
   color: #777;
@@ -242,6 +244,7 @@ body {
   padding: 1.25rem 3rem !important;
   font-size: 1.4rem !important;
 }
+
 
 .btn-small,
 .btn-small:link,
@@ -1133,6 +1136,18 @@ body {
   grid-column-gap: 2rem;
   padding: 2.5rem 3rem;
 }
+.card__details .rating p{
+  font-size: 25px;
+  color: #111;
+}
+.card__details .reviewing p{
+  font-size: 16px;
+  color: #111;
+}
+.card__details textarea{
+  resize: none;
+}
+
 .card__sub-heading {
   font-size: 1.2rem;
   text-transform: uppercase;
@@ -1325,7 +1340,7 @@ body {
   transform: translateY(-2px);
 }
 
-#comment{
+/* #comment{
   display: flex;
   align-items: center;
   width: 100%;
@@ -1367,7 +1382,7 @@ body {
   font-family: inherit;
   color: #fff;
   font-size: 30px;
-}
+} */
 #price{
   font-family: inherit;
   font-size: 30px;
@@ -1396,3 +1411,193 @@ body {
   color: red;
 }
 
+/* *{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+} */
+/* html,body{
+  display: grid;
+  height: 100%;
+  place-items: center;
+  text-align: center;
+background: #000; }*/
+
+.review__container{
+  position: relative;
+  width: 400px;
+  background: #111;
+  padding: 20px 30px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.review__container .post{
+  display: none;
+}
+.review__container .text{
+  font-size: 25px;
+  color: #666;
+  font-weight: 500;
+  font-family: "Poppins",sans-serif;
+}
+
+.review__container .edit:hover{
+  text-decoration: underline;
+}
+.review__container .star-widget input{
+  display: none;
+}
+.star-widget label{
+  font-size: 40px;
+  color: #444;
+  padding: 10px;
+  float: right;
+  transition: all 0.2s ease;
+}
+.review__container input:not(:checked) ~ label:hover,
+.review__container input:not(:checked) ~ label:hover ~ label{
+  color: #fd4;
+}
+.review__container input:checked ~ label{
+  color: #fd4;
+}
+.review__container input#rate-5:checked ~ label{
+  color: #fe7;
+  text-shadow: 0 0 20px #952;
+}
+.review__container #rate-1:checked ~ form header:before{
+  content: "I just hate it ";
+}
+.review__container #rate-2:checked ~ form header:before{
+  content: "I don't like it ";
+}
+.review__container #rate-3:checked ~ form header:before{
+  content: "It is awesome ";
+}
+.review__container #rate-4:checked ~ form header:before{
+  content: "I just like it ";
+}
+.review__container #rate-5:checked ~ form header:before{
+  content: "I just love it ";
+}
+.review__container  form{
+  display: none;
+}
+.review__container input:checked ~ form{
+  display: block;
+}
+.review__container form header{
+  width: 100%;
+  font-size: 25px;
+  color: #fe7;
+  font-weight: 500;
+  margin: 5px 0 20px 0;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+.review__container form .textarea{
+  height: 100px;
+  width: 100%;
+  overflow: hidden;
+}
+.review__container form .textarea textarea{
+  height: 100%;
+  width: 100%;
+  outline: none;
+  color: #eee;
+  border: 1px solid #333;
+  background: #222;
+  padding: 10px;
+  font-size: 17px;
+  resize: none;
+}
+.review__container .textarea textarea:focus{
+  border-color: #444;
+}
+.review__container form .btn{
+  height: 60px;
+  width: 100%;
+  margin: 15px 0;
+}
+.review__container form .btn button{
+  height: 100%;
+  width: 100%;
+  border: 1px solid #444;
+  outline: none;
+  background: #222;
+  color: #999;
+  font-size: 17px;
+  font-weight: 500;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.review__container form .btn button:hover{
+  background: #1b1b1b;
+}
+.review__block{
+  display: grid;
+  height: 100%;
+  place-items: center;
+  text-align: center;
+  margin-top: 3rem;
+}
+.review__block h2{
+  font-family: inherit;
+  font-size: 40px;
+  color: #fff;
+}
+.card-container#edit-card{
+  grid-template-columns:none;
+}
+ #edit-card{
+   display: inline;
+   width: 100%;
+
+ }
+ .card-container#edit-card .card__picture{
+   height: 40rem;
+ }
+ .card-container#edit-card p{
+   font-size: 20px;
+ }
+
+ #edit-card .card{
+   display: flex;
+   flex-direction:row;
+   justify-content: space-around;
+    padding: 20px 25px;
+ }
+ .edit-description input{
+  padding: 20px 10px;
+  line-height: 28px;
+ }
+ .modal{
+   width: 100%;
+   border: 1px solid #20bf6b;
+   border-radius: 20px;
+   height: 80%;
+   padding: 50px 52px;
+   display: none;
+   position: relative;
+ }
+ .modal.active{
+   display: block;
+ }
+ .modal label{
+   font-size: 2rem;
+   font-weight: bold;
+ }
+ .modal a{
+   font-size: 20px;
+ }
+ .btn--close-modal{
+   position: absolute;
+   right: 50px;
+   top: 50px;
+ }

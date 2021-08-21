@@ -14,14 +14,14 @@ block content
         ul.side-nav
           +navItem('#','Settings','settings',true)
           +navItem('/my-tours','My Bookings','briefcase',true)
-          +navItem('#','My Reviews','start',true)
+          +navItem('/my-reviews','My Reviews','start',true)
           +navItem('#','Billing','credit-card',true)
 
         - if(user.role==='admin')
           .admin-nav
             h5.admin-nav__heading Admin
             ul.side-nav
-              +navItem('#','Manage Tours','map')
+              +navItem('/manage-tours','Manage Tours','map')
               +navItem('#','Manage Users','users')
               +navItem('#','Manage Reviews','star')
               +navItem('#','Manage Bookings','briefcase')

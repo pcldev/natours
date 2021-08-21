@@ -6,6 +6,8 @@ import { updateSettings } from './updateSettings';
 import { bookTour } from './stripe';
 import { postReview } from './review';
 import { addLike, removeLike } from './like';
+import { updateReview } from './updateReview';
+import { updateTour, deleteTour, createTour } from './crudTour';
 
 const queryForm = function (thisQuery, func) {
   const forms = thisQuery.querySelectorAll('input');
@@ -21,10 +23,35 @@ const signupForm = document.querySelector('.form__signup');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const bookBtn = document.getElementById('book-tour');
-const cmtBtn = document.querySelector('.postReview');
+const postBtn = document.querySelector('.postBtn');
 const likeBtn = document.querySelector('.likeBtn');
+const updateReviewBtns = document.querySelectorAll('#update__review');
+const updateTourBtn = document.getElementById('save-update-tour-btn');
+const deleteTourBtn = document.getElementById('btn--delete-tour');
+const createTourBtn = document.getElementById('btn--create-tour');
 
 const logOutBtn = document.querySelector('.nav__el--logout');
+
+if (postBtn) {
+  // const post = document.querySelector('.post');
+  const stars = document.querySelectorAll('.fas.fa-star');
+  const textarea = document.querySelector(
+    'body > section.section-reviews > div.review__block > div > div.star-widget > form > div.textarea > textarea'
+  );
+  let starRating = 1;
+  stars.forEach((star) => {
+    star.addEventListener('click', (e) => {
+      starRating = parseInt(e.target.dataset.star);
+    });
+  });
+  postBtn.onclick = (e) => {
+    e.preventDefault();
+    postReview(textarea.value, starRating);
+    // widget.style.display = 'none';
+    // post.style.display = 'block';
+    // return false;
+  };
+}
 
 if (likeBtn) {
   likeBtn.addEventListener('click', async () => {
@@ -36,6 +63,135 @@ if (likeBtn) {
       heartIcon.classList.add('active');
       await addLike();
     }
+  });
+}
+
+if (updateReviewBtns) {
+  updateReviewBtns.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const id = e.target.closest('#update__review').dataset.reviewid;
+      const rating = e.target
+        .closest('.card__footer')
+        .parentElement.querySelector('select').value;
+      const reviewing = e.target
+        .closest('.card__footer')
+        .parentElement.querySelector('textarea').value;
+      updateReview(id, rating, reviewing);
+    });
+  });
+}
+
+if (updateTourBtn) {
+  updateTourBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const tourId = e.target.dataset.tourid;
+    const inputText = document.querySelectorAll('input[type=text]');
+    const inputNum = document.querySelectorAll('input[type=number]');
+    const difficulty = document.querySelector('select').value;
+    const dates = document.querySelectorAll('#date');
+    const titleNum = ['duration', 'price'];
+    const titleText = ['name', 'summary', 'description'];
+    const startDates = [];
+    const data = {};
+    dates.forEach((date) =>
+      startDates.push(
+        // new Date(`${date.value}T09:00:00.000+00:00`).toJSON().valueOf()
+        new Date(date.value)
+      )
+    );
+    data['startDates'] = startDates;
+    data['difficulty'] = difficulty;
+    //obj["key3"] = "value3"; *
+    inputNum.forEach((num, idx) => {
+      data[titleNum[idx]] = num.value;
+    });
+    inputText.forEach((text, idx) => {
+      data[titleText[idx]] = text.value;
+    });
+    updateTour(tourId, data);
+  });
+}
+
+if (deleteTourBtn) {
+  deleteTourBtn.addEventListener('click', (e) => {
+    const tourId = e.target.dataset.tourid;
+    deleteTour(tourId);
+  });
+}
+
+if (createTourBtn) {
+  const modal = document.querySelector('.modal');
+  createTourBtn.addEventListener('click', (e) => {
+    modal.classList.add('active');
+    const submitBtn = document.getElementById('btn--submit-tour');
+    const data = {};
+    const formStartLocation = document.querySelectorAll(
+      '#startLocation > input'
+    );
+    const formimages = document.querySelectorAll('#images > input');
+    const formStartDates = document.querySelectorAll('#startDates > input ');
+    const formLocations = document.querySelectorAll('#locations > input');
+    const anotherForm = document.querySelectorAll('#another > input');
+    const anotherTextArea = document.querySelectorAll('#another > textarea');
+    const coordinates_startLocation = document.querySelectorAll(
+      '#coordinates--startLocation > input'
+    );
+    const coordinates_locations = document.querySelectorAll(
+      '#coordinates--locations > input'
+    );
+    const coordinatesStartlocation = [];
+    const coordinatesLocations = [];
+    const startLocationArr = ['description', 'type', 'address'];
+    const startLocation = {};
+    const images = [];
+    const startDates = [];
+    const locations = [];
+    const location = {};
+    const locationtitleArr = ['description', 'type', 'day'];
+    submitBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      formStartLocation.forEach((val, index) => {
+        // if(startLocationArr[index]==='coordinates') startLocation[`${startLocationArr[index]}`]=
+        startLocation[`${startLocationArr[index]}`] = val.value;
+      });
+      data['startLocation'] = startLocation;
+      coordinates_startLocation.forEach((val) => {
+        coordinatesStartlocation.push(parseInt(val.value));
+      });
+      data.startLocation.coordinates = coordinatesStartlocation;
+      formimages.forEach((val, index) => {
+        images.push(val.value);
+      });
+      data['images'] = images;
+      formStartDates.forEach((val, index) => {
+        startDates.push(val.value);
+      });
+      data['startDates'] = startDates;
+      formLocations.forEach((val, index) => {
+        location[`${locationtitleArr[index]}`] = val.value;
+      });
+      locations.push(location);
+      data['locations'] = locations;
+
+      anotherForm.forEach((val, index) => {
+        data[`${val.attributes['name'].value}`] = val.value;
+      });
+
+      anotherTextArea.forEach((val, index) => {
+        data[`${val.attributes['name'].value}`] = val.value;
+      });
+      coordinates_locations.forEach((val) => {
+        coordinatesLocations.push(parseInt(val.value));
+      });
+      data.locations[0].coordinates = coordinatesLocations;
+      console.log(data);
+      // createTour(data);
+    });
+  });
+  const closeModalBtn = document.querySelector('.btn--close-modal');
+  closeModalBtn.addEventListener('click', () => {
+    modal.classList.remove('active');
   });
 }
 
@@ -116,51 +272,5 @@ if (bookBtn) {
     e.target.textContent = 'Processing...';
     const { tourId } = e.target.dataset;
     bookTour(tourId, quantity.value);
-  });
-}
-
-if (cmtBtn) {
-  const stars = document.querySelectorAll('.star');
-  let starRating = 1;
-  for (let i = 0; i < stars.length; i++) {
-    stars[i].starValue = i + 1;
-    ['mouseover', 'mouseout', 'click'].forEach(function (e) {
-      stars[i].addEventListener(e, starRate);
-    });
-  }
-
-  function starRate(e) {
-    let type = e.type;
-    let starValue = this.starValue;
-    if (type === 'click') {
-      if (starValue > 1) {
-        // console.log(starValue);
-        starRating = starValue;
-      }
-    }
-    stars.forEach(function (ele, ind) {
-      if (type === 'click') {
-        if (ind < starValue) {
-          ele.classList.add('fix');
-        } else {
-          ele.classList.remove('fix');
-        }
-      }
-      if (type === 'mouseover') {
-        if (ind < starValue) {
-          ele.classList.add('over');
-        } else {
-          ele.classList.remove('over');
-        }
-      }
-      if (type === 'mouseout') {
-        ele.classList.remove('over');
-      }
-    });
-  }
-  cmtBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    const cmtBox = document.getElementById('commentBox').value;
-    postReview(cmtBox, starRating);
   });
 }

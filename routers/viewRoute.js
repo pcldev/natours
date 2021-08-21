@@ -6,6 +6,9 @@ const {
   getSignupForm,
   getAccount,
   getMyTours,
+  getMyReviews,
+  crudTours,
+  editTour,
 } = require('../controller/viewController');
 const {
   isLoggedIn,
@@ -26,5 +29,8 @@ router.get('/login', isLoggedIn, getLoginForm);
 router.get('/signup', isLoggedIn, getSignupForm);
 router.get('/me', protect, getAccount);
 router.get('/my-tours', protect, getMyTours);
+router.get('/my-reviews', protect, getMyReviews);
+router.get('/manage-tours', protect, crudTours);
+router.get('/manage-tours/:tourId', protect, editTour);
 // router.get('/check', check);
 module.exports = router;

@@ -1,0 +1,30 @@
+extends base
+
+block content
+  main.main
+    .card-container
+      each review in reviews
+        .card
+          .card__header(data-reviewid=`${review.id}`)
+            .card__picture
+              .card__picture-overlay &nbsp;
+              img.card__picture-img(src=`/img/tours/${review.tour.imageCover}` alt=`${review.tour.name}`)
+            h3.heading-tertirary
+              span= review.tour.name
+          .card__details
+            form#review__form
+              .rating.review__form
+                h2 Your Rating :
+                select#rating(name='rating')
+                  option(value='1' selected= 1===review.rating ? "selected" :false) 1
+                  option(value='2' selected= 2===review.rating ? "selected" :false) 2
+                  option(value='3' selected= 3===review.rating ? "selected" :false) 3
+                  option(value='4' selected= 4===review.rating ? "selected" :false) 4
+                  option(value='5' selected= 5===review.rating ? "selected" :false) 5
+              .reviewing.review__form
+                h2 Your Reviewing
+                //- p=review.review
+                textarea(rows='10' cols='39' name='comment' required='')=review.review
+          .card__footer
+            //- button.btn.btn--red.btn--small Remove
+            button.btn.btn--green.btn--small#update__review(data-reviewid=`${review.id}`) Update

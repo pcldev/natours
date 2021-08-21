@@ -1,0 +1,139 @@
+extends base
+
+block content
+  main.main
+    .modal
+      .btn--close-modal
+        button.btn.btn--red x
+      form#startLocation
+        label(for='startLocation') Start Location
+        br
+        label(for='description') Description
+        input#description-1(type='text' name='description' value='')
+        label(for='Type') Type
+        input#type-2(type='text' name='type' value='')
+        label(for='address') Address
+        input#address(type='text' name='address' value='')
+        br
+        label(for='coordinates') Coordinates
+        //- input#coordinates(type='text' name='coordinates' value='')
+        a(href='https://www.google.com/maps/')
+          | Open Google Map to get locations
+      form#coordinates--startLocation
+        label(for='longitude') Longitude
+        input#longitude(type='number' name='longitude' value='')
+        label(for='latitude') Latitude
+        input#longitude(type='number' name='latitude' value='')
+      form#images
+        label(for='images') Images
+        br
+        label(for='images') Image 1
+        br
+        input#image-1(type='file' name='images' value='' accept="image/*")
+        br
+        label(for='images') Image 2
+        br
+        input#image-2(type='file' name='images' value='' accept="image/*")
+        br
+        label(for='images') Image 3
+        br
+        input#image-3(type='file' name='images' value='' accept="image/*")
+        br
+      form#startDates
+        label(for='startDates') Start Dates
+        br
+        input#startDates(type='date' name='startDates' value='')
+        input#startDates(type='date' name='startDates' value='')
+        input#startDates(type='date' name='startDates' value='')
+        br
+      form#another
+        label(for='name') Name
+        br
+        input#name(type='text' name='name' value='')
+        br
+        label(for='duration') Duration
+        br
+        input#duration(type='text' name='duration' value='')
+        br
+        label(for='maxGroupSize') Max Group Size
+        br
+        input#maxGroupSize(type='number' name='maxGroupSize' value='')
+        br
+        label(for='difficulty') Difficulty
+        br
+        select#difficulty
+          option(value='easy') easy
+          option(value='medium') medium
+          option(value='difficult') difficult
+        br
+        label(for='price') Price
+        br
+        input#price(type='number' name='price' value='')
+        br
+        label(for='summary') Summary
+        br
+        textarea#summary(name='summary' rows='4' cols='50' style='resize: none;')
+        br
+        label(for='description') Description
+        br
+        textarea#description-2(name='description' rows='4' cols='50' style='resize: none;')
+        br
+        label(for='imageCover') Image Cover
+        br
+        input#imageCover(type='file' name='imageCover' value='' accept="image/*")
+        br
+      form#locations
+        label(for='locations') Locations
+        br
+        label(for='description') Description
+        input#description(type='text' name='description' value='')
+        label(for='Type') Type
+        input#type-2(type='text' name='type' value='')
+        label(for='coordinates') Coordinates
+      form#coordinates--locations
+        label(for='longitude') Longitude
+        input#longitude(type='number' name='longitude' value='')
+        label(for='latitude') Latitude
+        input#longitude(type='number' name='latitude' value='')
+        label(for='day') Day
+        br
+      button#btn--submit-tour.btn.btn--green.btn--small(type='submit' value='Submit') Create
+
+    .card-container
+      button.btn.btn--green.btn--small#btn--create-tour Create New Tour
+      each tour in tours
+        .card
+          .card__header
+            .card__picture
+              .card__picture-overlay &nbsp;
+              img.card__picture-img(src=`/img/tours/${tour.imageCover}` alt=`${tour.name}`)
+            h3.heading-tertirary
+              span= tour.name
+          .card__details
+            h4.card__sub-heading=`${tour.difficulty} ${tour.duration}-day tour`
+            p.card__text=tour.summary
+            .card__data
+              svg.card__icon
+                use(xlink:href='/img/icons.svg#icon-map-pin')
+              span=tour.startLocation.description
+            .card__data
+              svg.card__icon
+                use(xlink:href='/img/icons.svg#icon-calendar')
+              span=tour.startDates[0].toLocaleString(`en-us`,{month:'long',year:'numeric'})
+            .card__data
+              svg.card__icon
+                use(xlink:href='/img/icons.svg#icon-flag')
+              span=`${tour.locations.length} stops`
+            .card__data
+              svg.card__icon
+                use(xlink:href='/img/icons.svg#icon-user')
+              span=`${tour.maxGroupSize} people`
+
+          .card__footer
+            p
+              span.card__footer-value=`$${tour.price} `
+              span.card__footer-text per person
+            p.card__ratings
+              span.card__footer-value=tour.ratingsAverage
+              span.card__footer-text=` rating (${tour.ratingsQuantity}) `
+            a.btn.btn--green.btn--small(href=`manage-tours/${tour.id}`) Edit

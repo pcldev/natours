@@ -1,0 +1,37 @@
+extends base
+
+block content
+  main.main
+    .card-container#edit-card
+        .card
+          .edit-name
+            h2 Tour Name :
+            input(type="text" value=`${tour.name}`)
+          .edit-difficulty
+            h2 Difficulty
+            select#difficulty(name='difficulty')
+              option(value='easy' selected= 'easy'===tour.difficulty ? "selected" :false) easy
+              option(value='medium' selected= 'medium'===tour.difficulty ? "selected" :false) medium
+              option(value='difficult' selected= 'difficult'===tour.difficulty ? "selected" :false) difficult
+          .edit-date
+            h2 Date
+            each startDate,idx in tour.startDates
+              - const date= new Date(`${startDate}`)
+              h2=`Day ${idx+1}`
+              input#date(type="date", name="",value=`${date.getFullYear()}-${date.getMonth()<10? `0${date.getMonth()}`:date.getMonth()}-${date.getDate()}`)
+          .edit-summary
+            h2 Summary
+            input(type="text" value=`${tour.summary}`)
+          .edit-description
+            h2 Description
+            input(type="text" value=`${tour.description}`)
+          .edit-duration
+            h2 Duration
+            input(type="number" value=`${tour.duration}`)
+          .edit-price
+            h2 Price
+            input(type="number" value=`${tour.price}`)
+          a.btn.btn--white.btn--small(href='/manage-tours') Back
+
+          button.btn.btn--red.btn--small#btn--delete-tour(data-tourId=`${tour.id}`) Delete
+          button.btn.btn--green.btn--small#save-update-tour-btn(data-tourId=`${tour.id}`) Save
